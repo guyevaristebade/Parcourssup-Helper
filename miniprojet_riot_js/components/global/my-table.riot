@@ -1,0 +1,143 @@
+<my-table>
+    
+    <div class="container scroll" if={ this.props?.tab?.records }>
+        <div class=" is-flex is-justify-content-end">
+            <input oninput={ makeResearch } class="input" type="text" placeholder="Text input">    
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><abbr>Nom<i class="fa-sharp fa-solid fa-sort" onclick={ getTableSorted }></i></abbr></th>
+                    <th><abbr >Ville</abbr></th>
+                    <th><abbr >Département</abbr></th>
+                    <th><abbr>Moyenne</abbr></th>
+                    <th><abbr >Selectivité</abbr></th>
+                </tr>
+            </thead>
+            <tbody class="scroll" >
+                <tr  each={record in this.props.tab.records.filter(el => el.fields.g_ea_lib_vx.toLowerCase().includes(this.state.text) || el.fields.g_ea_lib_vx.toUpperCase().includes(this.state.text))}>
+                    <td onclick={ getModalWithDatas } class="nom"><abbr>{record.fields.g_ea_lib_vx}</abbr></td>
+                    <td><abbr>{ record.fields.ville_etab }</abbr></td>
+                    <td><abbr>{ record.fields.dep }</abbr></td>
+                    <td><abbr>{ ((11 * record.fields.pct_sansmention + 13 * record.fields.pct_ab + 15 * record.fields.pct_b + 17 * record.fields.pct_tb + 19 * record.fields.pct_tbf) / 100).toFixed(1) }</abbr></td>
+                    <td><abbr>{ record.fields.taux_acces_ens } % <progress class= "progress is-small { getProgressColor(record.fields.taux_acces_ens) }" value={ record.fields.taux_acces_ens } max="100"></progress></abbr></td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th><abbr>Nom<i class="fa-sharp fa-solid fa-sort" onclick={ getTableSorted }></i></abbr></th>
+                    <th><abbr >Ville</abbr></th>
+                    <th><abbr >Département</abbr></th>
+                    <th><abbr>Moyenne</abbr></th>
+                    <th><abbr >Selectivité</abbr></th>     
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <script>
+
+        export default {
+
+            props : [
+                'g_ea_lib_vx',
+                'select_form',
+                'ville_etab',
+                'dep_lib',
+                'dep',
+                'acad_mies',
+                'contrat_etab',
+                'capa_fin',
+                'voe_tot',
+                'pct_aca_orig',
+                'ran_grp1',
+                'ran_grp2',
+                'pct_acc_debutpp',
+                'pct_acc_datebac',
+                'pct_acc_finpp'
+            ],
+
+            state : {
+                text : "",
+                filterArrays : [],
+                data : []
+            },
+
+            onUpdated(){
+                this.props.datamap(this.state.filterArrays)
+            },
+
+            makeResearch(e) {
+                this.update({ 
+                    text : e.target.value.toLowerCase() ||  e.target.value.toUpperCase(),
+                    filterArrays : this.props.tab.records.filter(el => el.fields.g_ea_lib_vx.toLowerCase().includes(this.state.text) || el.fields.g_ea_lib_vx.toUpperCase().includes(this.state.text))
+                })
+
+                if(this.state.filterArrays.length > 0){
+                    this.sa.setZoom(this.state.filterArrays)
+                }
+            },
+
+            /**
+            * permet d'attribuer une couleur à la progressBar en fonction d'une valeur de retour 
+            */
+            getProgressColor(value){
+                if(value < 20){
+                    return " is-danger"
+                } else if(value <= 50 ){
+                    return " is-warning"
+                }else{
+                    return " is-success"
+                }
+            },
+
+            /**
+            * permet de récupérer des informations qui sont exploité par le composant box-modal
+            */
+            getModalWithDatas(cible){
+                this.sa.getInfoEtablissement(cible.target.textContent).then( data => {                    
+                    this.props.DataBySchool(data,"show")
+                })
+            },
+
+            /**
+            * permet de trier les informations du tableau 
+            */
+            getTableSorted(){
+                this.props.tab.records.reverse()
+                this.update()
+            }
+        }
+    </script>
+
+    <style>
+        .container{
+            width:100%;
+            overflow: scroll;
+        }
+
+        table{
+            width:100%;
+        }
+        tbody{
+            overflow: scroll;
+        }
+
+        .nom{
+            cursor:pointer;
+        }
+
+        abbr{
+            text-align:center;
+        }
+        
+        .input{
+            width: 20rem;
+        }
+
+        i{
+            cursor:pointer;
+            margin-left : 10px
+        }
+        
+    </style>
+</my-table>

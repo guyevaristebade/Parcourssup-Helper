@@ -1,0 +1,34 @@
+<my-map>
+    <div id="map"></div>
+
+    <script>
+        export default {
+            
+            state : {
+                locations : [],
+                initialized : false,
+                map : null 
+            },
+
+            onMounted(){
+                this.sa.initMap()
+            },
+
+            onUpdated(){
+                this.sa.refreshMap( this.props?.tab?.records)
+            }
+        }
+    </script>
+
+    <style>
+        #map{
+            height: 55vh;
+            width: 100%; 
+        }
+        :host{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</my-map>

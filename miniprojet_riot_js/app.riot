@@ -1,0 +1,183 @@
+<app>
+
+    <div id="lien" class="box">
+        <my-link  tab={this.state.tab} link={this.state.link}></my-link>
+    </div>
+    
+    <div class="main box">
+
+        <div class="menu column is-one-quarter">
+            <my-menu 
+                recuperation={recupTab}
+                getLinks={getLink}
+            ></my-menu>
+        </div>
+
+        <div class="others box">
+            <div class="stats-container">
+                <my-stats tab={this.state.tab}></my-stats>
+            </div>
+            <div class="canvas-container">
+                <my-canva tab={this.state.tab}></my-canva>
+            </div>
+
+            <div class="map-container">
+                <my-map 
+                    tab={this.state.tab}
+                    localisation={localisation}
+                ></my-ap>
+            </div>
+
+            <div class="table-container">
+                <my-table 
+                    tab={this.state.tab}
+                    datamap={datamap}
+                    DataBySchool={DataBySchool}
+                ></my-table>
+            </div>
+
+            <div class="modal-container">
+                <box-modal
+                    dataSchoolArray={this.state.dataSchoolArray}
+                ></box-modal>
+            </div>
+
+            <div class="switcher-container">
+                <the-switcher></the-switcher>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        export default {
+            
+            state : {
+                tab : null,
+                localisation : [],
+                dataSchoolArray : null,
+                isOpen : false,
+                link : [null, null, null] 
+            },
+
+            onMounted() {
+                this.anim.starterAnimation('.menu','.stats-container', '.canvas-container', '.map-container','.table-container','#lien')
+            },
+
+            /**
+            * récupère toute les informations concernant une formation donnée, ces information son ensuite exploitées par les composants my-menu et my-table
+            */
+            recupTab(cible){
+                this.state.tab = cible
+                this.update()
+            },
+            
+            /**
+            * Permet de récupérer un jeu de données qui sera envoyé au composant my-map
+            */
+            datamap(cible){
+                this.state.localisation = cible
+                this.update()
+            },
+
+            /**
+            * permet de récupérer un jeu de données  lorsque qu'on clique sur un élément du composant my-table
+            * plus une valeur boolean 
+            */ 
+
+            DataBySchool(cible , show){
+                this.state.dataSchoolArray = cible
+                this.$("box-modal > #modal").classList.add(show)
+                this.update()
+                //console.log(this.state.dataSchoolArray, "je sui)
+            },
+
+            getLink(index,link){
+                this.state.link[index] = link
+                this.update()
+            }
+        }
+
+    </script>
+
+    <style>
+        #lien {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 3rem; 
+            margin: .5rem 2rem;           
+        }
+
+        .main {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+        }
+
+        .others {
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease-in-out;
+            overflow: auto;
+            width: 100%;
+        }
+
+        .table-container {
+            max-height: 400px;
+            overflow-y: scroll;
+            margin-top: 2rem;
+        }
+
+        .menu{
+            width:30%;
+            height: 100%;
+            position:sticky;
+        }
+
+        .stats-container{
+            margin-bottom:2rem;
+        }
+
+        
+        @media screen and (min-width: 1024px) {
+            .menu {
+                width: 30%;
+            }
+            .others {
+                width: 70%;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .main {
+                flex-direction: column;
+            }
+
+            .menu {
+                width: 100%;
+            }
+
+            .others {
+                width: 100%;
+                margin-top: 2rem;
+            }
+
+            .map-container {
+                height: 300px;
+                margin-top: 2rem;
+            }
+
+            .table-container {
+                overflow: auto;
+                width:100%;
+            }
+
+
+            .stats-container {
+                width:100%;
+            }
+        }
+
+    </style>
+
+</app>

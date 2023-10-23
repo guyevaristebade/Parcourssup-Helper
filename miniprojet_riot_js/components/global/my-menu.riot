@@ -1,0 +1,167 @@
+<my-menu>
+    <div class="menu-container">
+        <aside class="menu column is-narrow">
+            <div class="box scroll">
+                <div class="is-flex ">
+                    <input class="input" type="text" placeholder={this.state.placeholder} oninput={makeResearch}>
+                    <button onclick={previous} class="button is-outlined ml-2"><i class="fas fa-arrow-right"></i></button>
+                </div>
+                <ul class="menu-list" id="formations">
+                    <div if={this.state.itemsF} class="items-container" each={facet in state.itemsF.filter(el => el.name.toLowerCase().includes(this.state.text) || el.name.toUpperCase().includes(this.state.text))}>
+                        <li><a class="link" onclick={ next }>{ facet.name }</a></li>
+                        <span  id="effectif" class="has-background-primary has-text-info-light p-1">{ facet.count }</span>
+                    </div>
+                </ul>
+            </div>
+        </aside>
+    </div>
+    <script>
+        export default {
+            state : {
+                itemsF : [],
+                curpage : 1,
+                placeholder : 'Formations',
+                fili : null,
+                form_voe : null,
+                fill_voe : null,
+                text : ""            
+            },
+
+            onMounted(){
+                this.sa.getFormation().then(data => {
+                    this.update({
+                        itemsF : data.facet_groups[0].facets
+                    })
+                })
+            },
+
+            makeResearch(e) {
+                this.update({ text : e.target.value.toLowerCase() ||  e.target.value.toUpperCase() });
+            },
+
+            next(e) {
+                if(this.state.curpage === 1){
+                    this.sa.getFiliereFormation(e.target.textContent).then(data => {
+                            
+                            this.update({
+                                itemsF: data.facet_groups[1].facets
+                            })
+                        })
+                        this.update({
+                            curpage: this.state.curpage + 1,
+                            fili : e.target.textContent,
+                            placeholder : "filiere de formation"
+                        })
+                        
+                        this.anim.AnimationItemsMenu('.link')
+                        this.props.getLinks(0,e.target.textContent)
+                    }else if(this.state.curpage === 2){
+                    this.sa.getFiliereFormationDetaille(e.target.textContent).then(data => {
+                        
+                        this.update({
+                            itemsF: data.facet_groups[2].facets
+                        })
+                    })
+                    this.update({
+                        curpage: this.state.curpage + 1,
+                        form_voe : e.target.textContent,
+                        placeholder : "Filière de formation détaillée"
+                    })
+                    this.anim.AnimationItemsMenu('.link')
+                    this.props.getLinks(1,e.target.textContent)
+                }else if(this.state.curpage === 3){
+                    this.sa.ShareToOderComponent(e.target.textContent).then(data => {
+                        this.props.recuperation(data)
+                    })
+                    this.anim.AnimationItemsMenu('.link')
+                    this.props.getLinks(2,e.target.textContent)
+                }
+            },
+
+            previous() {
+                if(this.state.curpage === 3 ){
+                    this.sa.getFiliereFormation(this.state.fili).then((data) => {
+                        
+                        this.update({
+                            itemsF: data.facet_groups[1].facets,
+                            curpage: this.state.curpage - 1,
+                            form_voe : null,
+                            placeholder : "filiere de formation"
+                        })
+                        
+                    })
+                    this.anim.AnimationItemsMenu('.link')
+                    this.props.getLinks(2,null)
+                    this.props.getLinks(1,null)
+
+
+                }else if (this.state.curpage === 2){
+                    this.sa.getFormation().then(data => {
+                        
+                        this.update({
+                            itemsF : data.facet_groups[0].facets,
+                            curpage: this.state.curpage - 1,
+                            fili : null,
+                            placeholder : "filiere de formation detaille"
+                        })
+                        this.props.getLinks(0,"")
+                    })
+                    this.anim.AnimationItemsMenu('.link')                    
+
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .input{
+            margin-bottom:1rem;
+        }
+
+        .items-container{
+            margin-bottom:2rem;
+            display:flex;
+            justify-content: space-between;
+            align-items:center;
+            cursor:pointer;
+            overflow:auto;
+        }
+
+        #effectif{
+            border-radius:.5rem;
+        }
+
+        li{
+            width: 100%;   
+        }
+        
+        a{
+            width: 90%;   
+            height:2rem;
+            display:flex;
+            align-items:center;
+            padding:.5rem;
+
+        }
+
+        a:hover{
+            background-color: lightblue;
+        }
+
+        .scroll{
+            overflow: auto;
+            height:100%;
+        }
+
+        .menu-list{
+            position: sticky;
+            height:100%;
+            margin-bottom:1rem;
+        }
+
+        .menu{
+            overflow: auto;
+        }
+
+    </style>
+</my-menu>

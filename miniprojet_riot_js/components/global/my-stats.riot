@@ -1,0 +1,87 @@
+<my-stats>
+    <div class="container" if={ this.props?.tab?.records }>
+        <div class="principal">
+            <div class="statistiques">
+                <h4>Moyenne des admis</h4>
+                <span >{
+                    (((11 * this.props.tab.records.reduce((acc, data) => acc + parseInt(data.fields.pct_sansmention), 0) / this.props.tab.facet_groups[0].facets[0].count ) + (13 * this.props.tab.records.reduce((acc, data) => acc + parseInt(data.fields.pct_ab ), 0) / this.props.tab.facet_groups[0].facets[0].count) + (15 * this.props.tab.records.reduce((acc, data) => acc + parseInt(data.fields.pct_b ), 0) /this.props.tab.facet_groups[0].facets[0].count) + (17 * this.props.tab.records.reduce((acc, data) => acc + parseInt(data.fields.pct_tb ), 0) / this.props.tab.facet_groups[0].facets[0].count )+ (19 * this.props.tab.records.reduce((acc, data) => acc + parseInt(data.fields.pct_tbf ), 0) / this.props.tab.facet_groups[0].facets[0].count)) / 100).toFixed(1)
+                }</span>
+            </div>
+            <div class="statistiques">
+                <h4>Nb Formation</h4>
+                <span>
+                    { this.props.tab.facet_groups[0].facets[0].count }
+                </span>
+            </div>
+            <div class="statistiques">
+                <h4>Capacité</h4>
+                <span>
+                    {
+                        Math.floor( this.props.tab.records.reduce((acc, el) => acc + el.fields.capa_fin, 0) / this.props.tab.facet_groups[0].facets[0].count)
+                    }
+                </span>
+            </div>
+            <div class="statistiques">
+                <h4>Sélectivité <span>({
+                    Math.floor(this.props.tab.records.reduce((acc, data) => acc + parseInt(data.fields.taux_acces_ens,10), 0) / this.props.tab.facet_groups[0].facets[0].count) 
+                    }%)</span></h4>
+                <progress class="progress is-small {getColorProgress()}" value={ Math.floor(this.props.tab.records.reduce((acc, data) => acc + parseInt(data.fields.taux_acces_ens,10), 0) / this.props.tab.facet_groups[0].facets[0].count) } max="100">20%</progress>
+            </div>
+        </div>
+    </div>
+    <script>
+        export default {
+
+            props : [],
+
+            onBeforeMount(){
+                return 
+                    props = {
+                        tab : this.props.tab
+                    }
+            },
+
+            getColorProgress(){
+                if(this.props.taux_selectivite < 50){
+                    return " is-danger"
+                }else if(this.props.taux_selectivite <= 60){
+                    return "progress is-small is-warning"
+                }else{
+                    return "progress is-small is-success"
+                }
+            }
+        }
+    </script>
+
+    <style >
+        .container{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            width : 100%;
+        }
+
+        .principal{
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction: column;
+            background:lightgray;
+            box-shadow:0 0 20px rgba(0,0,0,0);
+            width : 50%;
+            border-radius: 5px;
+            padding:10px;
+        }
+
+        .statistiques{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            width : 100%;
+        }
+
+        span{
+            font-weight: bold;
+        }
+    </style>
+</my-stats>

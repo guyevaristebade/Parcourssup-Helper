@@ -1,0 +1,39 @@
+<my-link>
+    <div class="tw-container is-flex is-justify-content-center">
+        <span id="typewrite">
+            { this.props?.link?.join(" / ")   }
+        </span>
+
+    </div>
+    <script>
+
+        export default {
+
+            state : {
+                texte : "Bienvenue sur PARCOURSUP HELPER !",
+                tab : []
+            },
+
+            onUpdated(){
+                this.state.tab = this.props?.tab?.records
+                console.log(this.props," je suis state")
+            }
+        }
+    </script>
+
+    <style>
+        span{
+            font-size:20px; 
+            text-align:center;
+            font-weight:bold;
+        }
+
+        #tw-container{
+            box-shadow: 0 0 16px lightgray
+        }
+
+        strong{
+            color : #00D1B2;
+        }
+    </style>
+</my-link>

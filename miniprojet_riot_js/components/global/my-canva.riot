@@ -1,0 +1,172 @@
+<my-canva>
+    <div class="columns">
+        <div class="column">
+            <canvas id="canvas1"></canvas>
+        </div>
+        <div class="column">
+            <canvas id="canvas2"></canvas>
+        </div>
+        <div class="column">
+            <canvas id="canvas3"></canvas>
+        </div>
+        
+    </div>
+
+    <script>
+        export default {
+            state : {
+                pct_f : null,
+                pct_h : null,
+            },
+            onMounted(){
+                                
+                // var canvas = this.$("#canvas1");
+
+                // // Récupération du contexte de dessin 2D
+                // var ctx = canvas.getContext("2d");
+                // // Définition des pourcentages
+                // // Définition des pourcentages
+                // var pourcentageHommes = 60;
+                // var pourcentageFemmes = this.props.tab.records.reduce((acc + el)  => acc + el.fileds.pct_f , 0  ) / this.props.tab.facet_groups[0].facets.count
+
+                // // Calcul de la largeur des rectangles en fonction des pourcentages
+                // var largeurHommes = canvas.width * (pourcentageHommes / 100);
+                // var largeurFemmes = canvas.width * (pourcentageFemmes / 100);
+
+                // // Dessin du titre
+                // ctx.fillStyle = "black";
+                // ctx.font = " 15px Arial";
+                // ctx.textAlign = "center";
+                // ctx.fillText("Répartition par genre", canvas.width / 2, 25);
+
+                // // Dessin des rectangles pour les hommes et les femmes
+                // ctx.fillStyle = "blue";
+                // ctx.fillRect(0, 50, largeurHommes, 30);
+                // ctx.fillStyle = "#000";
+                // ctx.fillText(pourcentageHommes + "%", largeurHommes / 2, 70);
+
+                // ctx.fillStyle = "pink";
+                // ctx.fillRect(largeurHommes, 50, largeurFemmes, 30);
+                // ctx.fillStyle = "#000";
+                // ctx.fillText(pourcentageFemmes + "%", largeurHommes + largeurFemmes / 2, 70);
+
+                // // Dessin de la légende
+                // ctx.fillStyle = "blue";
+                // ctx.fillRect(largeurHommes / 2, 120, 20, 20);
+                // ctx.fillStyle = "black";
+                // ctx.font = "12px Arial";
+                // ctx.fillText("H", largeurHommes / 2 + 50, 135);
+
+                // ctx.fillStyle = "pink";
+                // ctx.fillRect(largeurHommes, 120, 20, 20);
+                // ctx.fillStyle = "black";
+                // ctx.fillText("F", largeurHommes +50, 135);
+
+                // // -------------------------------------------------------
+                // // Définition des pourcentages
+                // var pourcentageBacS = 30;
+                // var pourcentageBacES = 20;
+                // var pourcentageBacSTMG = 25;
+                // var pourcentageAutreBac = 25;
+
+                // // Calcul de la largeur des rectangles en fonction des pourcentages
+                // var largeurBacS = canvas.width * (pourcentageBacS / 100);
+                // var largeurBacES = canvas.width * (pourcentageBacES / 100);
+                // var largeurBacSTMG = canvas.width * (pourcentageBacSTMG / 100);
+                // var largeurAutreBac = canvas.width * (pourcentageAutreBac / 100);
+
+                // // Dessin du titre
+                // ctx.fillStyle = "black";
+                // ctx.font = "bold 20px Arial";
+                // ctx.textAlign = "center";
+                // ctx.fillText("Répartition par bac", canvas.width / 2, 220);
+
+                // // Dessin des rectangles pour les pourcentages de chaque bac
+                // ctx.fillStyle = "red";
+                // ctx.fillRect(0, 250, largeurBacS, 30);
+                // ctx.fillStyle = "#000";
+                // ctx.fillText(pourcentageBacS + "%", largeurBacS / 2, 270);
+
+                // ctx.fillStyle = "green";
+                // ctx.fillRect(largeurBacS, 250, largeurBacES, 30);
+                // ctx.fillStyle = "#000";
+                // ctx.fillText(pourcentageBacES + "%", largeurBacS + largeurBacES / 2, 270);
+
+                // ctx.fillStyle = "blue";
+                // ctx.fillRect(largeurBacS + largeurBacES, 250, largeurBacSTMG, 30);
+                // ctx.fillStyle = "#000";
+                // ctx.fillText(pourcentageBacSTMG + "%", largeurBacS + largeurBacES + largeurBacSTMG / 2, 270);
+
+                // ctx.fillStyle = "orange";
+                // ctx.fillRect(largeurBacS + largeurBacES + largeurBacSTMG, 250, largeurAutreBac, 30);
+                // ctx.fillStyle = "#000";
+                // ctx.fillText(pourcentageAutreBac + "%", largeurBacS + largeurBacES + largeurBacSTMG + largeurAutreBac / 2, 270);
+
+                // // Dessin des légendes
+                // ctx.fillStyle = "red";
+                // ctx.fillRect(largeurBacS / 3, 330, 20, 20);
+                // ctx.fillStyle = "black";
+                // ctx.textAlign = "right";
+                // ctx.font = "12px Arial";
+                // ctx.fillText("Gen", largeurBacS -110, 345);
+
+                // ctx.fillStyle = "green";
+                // ctx.fillRect(pourcentageBacES + largeurBacS + largeurBacES / 4, 330, 20, 20);
+                // ctx.fillStyle = "black";
+                // ctx.fillText("Tech",pourcentageBacES + largeurBacS + largeurBacES - 70 , 345);
+
+                // ctx.fillStyle = "blue";
+                // ctx.fillRect(pourcentageBacSTMG + largeurBacS + largeurBacES + largeurBacSTMG / 4, 330, 20, 20);
+                // ctx.fillStyle = "black";
+                // ctx.fillText("Pro", pourcentageBacSTMG + largeurBacS + largeurBacES + largeurBacSTMG  - 100 , 345);
+
+                // ctx.fillStyle = "orange";
+                // ctx.fillRect(pourcentageAutreBac +  largeurBacS + largeurBacES + largeurBacSTMG + largeurAutreBac / 4, 330, 20, 20);
+                // ctx.fillStyle = "black";
+                // ctx.fillText("Aut", pourcentageAutreBac +  largeurBacS + largeurBacES + largeurBacSTMG + largeurAutreBac - 100,345)
+
+                // // -------------------------------------------
+                // ctx.fillStyle = "black";
+                // ctx.font = "bold 20px Arial";
+                // ctx.textAlign = "center";
+                // ctx.fillText("Répartition par bac", canvas.width / 2, 410);
+
+                // var P = 30;
+                // var AB = 10;
+                // var B = 25;
+                // var TB = 5;
+                // var TBF = 30;
+
+                // var MP = canvas.width * (P / 100);
+                // var MAB = canvas.width * (AB / 100);
+                // var MB = canvas.width * (B / 100);
+                // var MTB = canvas.width * (TB / 100);
+                // var MTBF = canvas.width * (TBF / 100);
+
+
+                // ctx.fillStyle = "blue";
+                // ctx.fillRect(0, 430, MP, 30);
+                // ctx.fillStyle = "#000";
+                // ctx.fillText(P + "%", MP / 2, 450);
+
+                // ctx.fillStyle = "pink";
+                // ctx.fillRect(MP, 430, MAB, 30);
+                // ctx.fillStyle = "#000";
+                // ctx.fillText(AB + "%", AB + P/ 2, 450);
+            }
+
+        } 
+    </script>
+
+    <style>
+        #canvas1{
+            width: 800px;
+            height: 200px;
+            border : solid 1px;
+        }
+
+        .columns{
+            
+        }
+    </style>
+</my-canva>
